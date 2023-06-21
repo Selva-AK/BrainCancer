@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html />
+<html>
+<head>
+    <title>Login</title>
+	 <link rel="shortcut icon" type="image/png" href="images/mary.png" />
+    <!-- Bootstrap 4 CDN -->
+    <link rel="stylesheet" href="cdn/bootstrap.min.css" />
+    <script src="cdn/jquery.min.js"></script>
+    <script src="cdn/popper.min.js"></script>
+    <script src="cdn/bootstrap.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="cdn1/fonts/font-awesome.min.css" />
+    <!-- Select2 and date -->
+    <link rel="stylesheet" href="cdn1/select2/select2.min.css" />
+    <script src="cdn1/select2/select2.full.min.js"></script>
+	<link rel="stylesheet" href="cdn1/css/adminlte.min.css">
+    <link rel="stylesheet" href="cdn1/css/AdminLTE1.min.css">
+    <!--Time-->
+    <link href="cdn1/jquery.ptTimeSelect.css" rel="stylesheet" type="text/css">
+    <script src="cdn1/jquery.ptTimeSelect.js" type="text/javascript"></script>
+    <link href="cdn1/mdtimepicker.css" rel="stylesheet" type="text/css">
+    <script src="cdn1/mdtimepicker.js"></script>
+    <!--data Tables-->
+    <link rel="stylesheet" href="cdn1/datatables/dataTables.bootstrap4.min.css">
+    <script src="cdn1/datatables/jquery.dataTables.min.js"></script>
+    <script src="cdn1/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <script>
+
+        jQuery(document).ready(function ($) 
+		{
+            $(".toggle-password").click(function () 
+			{
+                $(this).toggleClass("fa-eye fa-eye-slash");
+                var input = $($(this).attr("toggle"));
+                if (input.attr("type") == "password") 
+				{
+                    input.attr("type", "text");
+                } 
+				else 
+				{
+                    input.attr("type", "password");
+                }
+            });
+			
+			$(".select2").select2();
+        });
+
+        function setCookie1(cname, cvalue, exdays) 
+		{
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 1 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toGMTString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+        function setCookie2(cname, cvalue, exdays) 
+		{
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 1 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toGMTString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+        function getCookie(cname) 
+		{
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) 
+			{
+                var c = ca[i];
+                while (c.charAt(0) == ' ') 
+				{
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        function checkCookie() 
+		{
+            var user = getCookie("E_Mail");
+            var pass = getCookie("Password");
+
+            if (user != "" && pass != "") 
+			{
+                document.getElementById("E_Mail").value = user;
+                document.getElementById("Password").value = pass;
+                var checkBox = document.getElementById("myCheck");
+                checkBox.checked = true;
+            }
+            else 
+			{
+                var checkBox = document.getElementById("myCheck");
+                checkBox.checked = false;
+            }
+        }
+
+        function myclick() 
+		{
+            var checkBox = document.getElementById("myCheck");
+            if (checkBox.checked == true) {
+                var x, y;
+                x = document.getElementById("E_Mail").value;
+                y = document.getElementById("Password").value;
+                user = x;
+                pass = y;
+
+                setCookie1("E_Mail", user, 30);
+                setCookie2("Password", pass, 30);
+            }
+            else 
+			{
+                var x, y;
+                x = document.getElementById("E_Mail").value;
+                y = document.getElementById("Password").value;
+                user = x;
+                pass = y;
+                deleteCookie1("E_Mail", user, 0)
+                deleteCookie2("Password", pass, 0)
+                window.location.reload();
+            }
+        }
+
+        function deleteCookie1(cname, cvalue, exdays) 
+		{
+            var d = new Date();
+            d.setTime(d.getTime() - (exdays * 1 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toGMTString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+        function deleteCookie2(cname, cvalue, exdays) 
+		{
+            var d = new Date();
+            d.setTime(d.getTime() - (exdays * 1 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toGMTString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+    </script>
+
+</head>
+<body  onload="checkCookie()" style="background-color:lavender">
+<br>
+    <div class="row container-fluid">
+	
+        <div class="col-sm-4"></div>
+        
+        <div class="col-sm-4">		
+            
+            <div class="card card-info ">
+                <div class="card-header" style="background-color: #3b5998;">
+                    <h5 class="card-title  text-white text-center" style="font-family: arial">Login Form</h5>                       
+                </div>
+				
+                <div class="card-body">
+					<form class="form-horizontal container-fluid" action="Log.php" method="post">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <label class="col-form-label col-3" for="name">E-Mail</label>                                
+                            <input type="email" id="E_Mail" class="form-control" name="E_Mail" placeholder="E-Mail" autocomplete="off"
+                                required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fa fa-envelope-o"></i></span>
+                                </span>&nbsp <span class="font-weight-bold text-danger" style="font-size: large">*</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <label class=" col-form-label col-3" for="name">Password</label>
+                            <input type="password" id="Password" class="form-control " name="Password" placeholder="Password" required>
+                            <!--
+                                pattern="^\S{6,}$"
+                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" name="pwd1" onchange="
+                                title="Password must contain at least 6 characters, including UPPER/lowercase and numbers">
+							-->
+                            <div class="input-group-append">
+                                <span toggle="#Password" class="input-group-text  fa fa-eye-slash toggle-password">
+                                </span><span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i>
+                                </span>&nbsp <span class="font-weight-bold text-danger" style="font-size: large">*</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group input-group">
+						<label class=" col-form-label col-3" for="name"></label>
+                        <input type="submit" onclick="myclick()"  value="Login" class="form-control col-8 btn font-weight-bold" style="font-family: arial;
+                            color: white; background-color: #3b5998">
+                    </div>
+					
+	
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" name="remember" id="myCheck">
+                        Remember Me
+                    </div>	
+					<a class="float-right font-weight-bold" href="index.html">Back</a><br />            
+                </form>				
+				</div>
+			
+			</div>
+		<div class="col-sm-4"> </div>
+    </div>    
+</body>
+</html>
